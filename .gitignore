@@ -1,0 +1,4 @@
+build/
+bot_token
+.vscode/
+.editorconfig
