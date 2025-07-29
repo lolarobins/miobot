@@ -2,3 +2,4 @@ build/
 bot_token
 .vscode/
 .editorconfig
+.DS_Store
