@@ -9,8 +9,8 @@
 # for the sputnik supporters discord server
 
 CC=clang
-CFLAGS=-O2 -g -Wall -pthread
-LDFLAGS=-lcurl -ldiscord
+CFLAGS=-O2 -g -Wall -I/usr/local/include -std=c23
+LDFLAGS=-L/usr/local/lib -lcurl -ldiscord -lpthread
 TARGET=miobot
 OBJS=build/main.o
 
