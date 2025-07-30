@@ -1,14 +1,12 @@
-#include <concord/discord.h>
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>
 
-const u64snowflake registered_guilds[] = {
-    // bot test server
-    1399840781786812516,
-    // sputnik supporters
-    789234738350653460
-};
+#include <concord/discord.h>
+
+#include "miobot.h"
+
+// stored app id
 u64snowflake app_id;
 
 // bot initialization
@@ -19,44 +17,39 @@ void bot_ready (struct discord *handle, const struct discord_ready *event) {
     // store provided app id
     app_id = event->application->id;
 
-    // define available commands
-    struct discord_create_guild_application_command pronouns
-       = { .name = "pronouns", .description = "manage your pronoun roles" };
-    struct discord_create_guild_application_command color
-       = { .name = "color", .description = "manage your color role" };
-    struct discord_create_guild_application_command colour
-       = { .name        = "colour", // non-US English supremacy
-           .description = "manage your colour role" };
-
     // register commands in all guilds
-    for (size_t i = 0; i < sizeof (registered_guilds) / sizeof (char *); i++) {
+    for (size_t i = 0; i < sizeof (server_ids) / sizeof (char *); i++) {
         discord_create_guild_application_command (
-           handle, event->application->id, registered_guilds[i], &pronouns,
+           handle, event->application->id, server_ids[i], &pronouns_add_cmd,
+           NULL);
+
+        discord_create_guild_application_command (
+           handle, event->application->id, server_ids[i], &pronouns_remove_cmd,
+           NULL);
+
+        // colour commands
+        struct discord_create_guild_application_command color_cmd
+           = { .name = "color", .description = "set your color role" };
+        struct discord_create_guild_application_command colour_cmd
+           = { .name        = "colour", // non-US English supremacy
+               .description = "set your colour role" };
+
+        discord_create_guild_application_command (
+           handle, event->application->id, server_ids[i], &pronouns_remove_cmd,
            NULL);
         discord_create_guild_application_command (
-           handle, event->application->id, registered_guilds[i], &color, NULL);
+           handle, event->application->id, server_ids[i], &color_cmd, NULL);
         discord_create_guild_application_command (
-           handle, event->application->id, registered_guilds[i], &colour, NULL);
+           handle, event->application->id, server_ids[i], &colour_cmd, NULL);
     }
 }
 
 // slash command interraction
-void bot_command_interaction (struct discord *client,
+void bot_command_interaction (struct discord *handle,
                               const struct discord_interaction *event) {
     // return if not a slash command
     if (event->type != DISCORD_INTERACTION_APPLICATION_COMMAND) return;
 
-    // pronouns command
-    if (strcmp (event->data->name, "pronouns") == 0) {
-        struct discord_interaction_response params
-           = { .type = DISCORD_INTERACTION_CHANNEL_MESSAGE_WITH_SOURCE,
-               .data = &(struct discord_interaction_callback_data) {
-                  .content = "meow :3",
-                  .flags   = DISCORD_MESSAGE_EPHEMERAL } };
-
-        discord_create_interaction_response (client, event->id, event->token,
-                                             &params, NULL);
-    }
 }
 
 // main function to set up bot and run
@@ -92,6 +85,7 @@ int main (int argc, char *argv[]) {
     // add callbacks for bot
     discord_set_on_ready (handle, &bot_ready);
     discord_set_on_interaction_create (handle, &bot_command_interaction);
+    discord_set_on_interaction_create (handle, &pronoun_command_interaction);
 
     // run
     discord_run (handle);
