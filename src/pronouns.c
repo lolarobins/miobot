@@ -5,25 +5,28 @@
 #include "miobot.h"
 
 const struct {
-    u64snowflake she, he, they, it;
+    u64snowflake she, he, they, it, any;
 } pronoun_ids[] = {
     // test server
     { .she  = 1399970513240985740,
       .he   = 1399970417338220666,
       .it   = 1399970562259816562,
-      .they = 1399970539430215700 },
+      .they = 1399970539430215700,
+      .any  = 1400025156914778193 },
     // main server
     { .she  = 789243449123012608,
       .he   = 789243385289769060,
       .they = 789243421734600765,
-      .it   = 789243472577560646 }
+      .it   = 789243472577560646,
+      .any  = 1009951522735534120 }
 };
 
 static struct discord_application_command_option_choice _role_choices[]
    = { { .name = "she/her", .value = "\"she/her\"" },
        { .name = "he/him", .value = "\"he/him\"" },
        { .name = "they/them", .value = "\"they/them\"" },
-       { .name = "it/its", .value = "\"it/its\"" } };
+       { .name = "it/its", .value = "\"it/its\"" },
+       { .name = "any/all", .value = "\"any/all\"" } };
 
 static struct discord_application_command_option _role_opts[] =
     { { .type = DISCORD_APPLICATION_OPTION_STRING,
@@ -32,7 +35,7 @@ static struct discord_application_command_option _role_opts[] =
                 .choices =
                     &(struct discord_application_command_option_choices) {
                         .array = _role_choices,
-                        .size = 4,
+                        .size = 5,
                     },
                 .required = true
     }
@@ -63,6 +66,8 @@ u64snowflake pronoun_role_id (u64snowflake server_id, const char *response) {
         return pronoun_ids[pos].they;
     else if (!strcmp ("it/its", response))
         return pronoun_ids[pos].it;
+    else if (!strcmp ("any/all", response))
+        return pronoun_ids[pos].any;
 
     return 0;
 }
@@ -103,7 +108,7 @@ void pronoun_command_interaction (struct discord *handle,
                                              &message, NULL);
     } else if (!strcmp ("remove_pronouns", event->data->name)) {
         char response[128];
-        
+
         if (event->data->options->size != 1)
             strcpy (response, "invalid command syntax");
         else {
@@ -116,8 +121,8 @@ void pronoun_command_interaction (struct discord *handle,
                    = { .reason = "removing pronouns" };
 
                 discord_remove_guild_member_role (handle, event->guild_id,
-                                               event->member->user->id, role,
-                                               &params, NULL);
+                                                  event->member->user->id, role,
+                                                  &params, NULL);
 
                 sprintf (response, "<@&%llu> role removed", role);
             }
