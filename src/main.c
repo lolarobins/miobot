@@ -1,3 +1,10 @@
+// +--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+
+// | miobot - discord bot for the 'Sputnik Supporters' discord server  |
+// |           MIT license - copyright (c) 2025 lolasnotunix           |
+// |                                                                   |
+// |         main.c = bot setup and other initialization stuff         |
+// +--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+
+
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>

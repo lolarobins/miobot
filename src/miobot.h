@@ -1,3 +1,10 @@
+// +--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+
+// | miobot - discord bot for the 'Sputnik Supporters' discord server  |
+// |           MIT license - copyright (c) 2025 lolasnotunix           |
+// |                                                                   |
+// |     miobot.h - all-purpose header file for the miobot project     |
+// +--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+
+
 #pragma once
 
 #ifdef __cplusplus

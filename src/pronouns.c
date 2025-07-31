@@ -1,3 +1,10 @@
+// +--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+
+// | miobot - discord bot for the 'Sputnik Supporters' discord server  |
+// |           MIT license - copyright (c) 2025 lolasnotunix           |
+// |                                                                   |
+// |      pronouns.c - allows users to change their pronoun roles      |
+// +--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+
+
 #include <string.h>
 
 #include <concord/discord.h>
@@ -54,7 +61,6 @@ struct discord_create_guild_application_command pronouns_remove_cmd
        .options
        = &(struct discord_application_command_options) { .array = _role_opts,
                                                          .size  = 1 } };
-
 
 #define match_role(x, y) \
     if (!strcmp (x, response)) return pronoun_ids[pos].y;

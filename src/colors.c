@@ -1,3 +1,10 @@
+// +--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+
+// | miobot - discord bot for the 'Sputnik Supporters' discord server  |
+// |           MIT license - copyright (c) 2025 lolasnotunix           |
+// |                                                                   |
+// |        colors.c - allows users to change their color roles        |
+// +--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+
+
 #include <string.h>
 
 #include <concord/discord.h>
@@ -79,7 +86,6 @@ struct discord_create_guild_application_command color_cmd
        = &(struct discord_application_command_options) { .array = _role_opts,
                                                          .size  = 1 } };
 
-                                                         
 #define match_role(x, y) \
     if (!strcmp (x, response)) return color_ids[pos].y;
 
