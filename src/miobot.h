@@ -17,6 +17,11 @@ extern void
    pronoun_command_interaction (struct discord *handle,
                                 const struct discord_interaction *event);
 
+extern struct discord_create_guild_application_command color_cmd;
+
+extern void color_command_interaction (struct discord *handle,
+                                       const struct discord_interaction *event);
+
 #ifdef __cplusplus
 }
 #endif

@@ -55,19 +55,19 @@ struct discord_create_guild_application_command pronouns_remove_cmd
        = &(struct discord_application_command_options) { .array = _role_opts,
                                                          .size  = 1 } };
 
+
+#define match_role(x, y) \
+    if (!strcmp (x, response)) return pronoun_ids[pos].y;
+
 u64snowflake pronoun_role_id (u64snowflake server_id, const char *response) {
     int pos = server_array_pos (server_id);
     if (pos == -1) return 0;
 
-    if (!strcmp ("she/her", response)) return pronoun_ids[pos].she;
-    else if (!strcmp ("he/him", response))
-        return pronoun_ids[pos].he;
-    else if (!strcmp ("they/them", response))
-        return pronoun_ids[pos].they;
-    else if (!strcmp ("it/its", response))
-        return pronoun_ids[pos].it;
-    else if (!strcmp ("any/all", response))
-        return pronoun_ids[pos].any;
+    match_role ("she/her", she);
+    match_role ("he/him", he);
+    match_role ("they/them", they);
+    match_role ("it/its", it);
+    match_role ("any/all", any);
 
     return 0;
 }

@@ -22,34 +22,20 @@ void bot_ready (struct discord *handle, const struct discord_ready *event) {
         discord_create_guild_application_command (
            handle, event->application->id, server_ids[i], &pronouns_add_cmd,
            NULL);
-
-        discord_create_guild_application_command (
-           handle, event->application->id, server_ids[i], &pronouns_remove_cmd,
-           NULL);
-
-        // colour commands
-        struct discord_create_guild_application_command color_cmd
-           = { .name = "color", .description = "set your color role" };
-        struct discord_create_guild_application_command colour_cmd
-           = { .name        = "colour", // non-US English supremacy
-               .description = "set your colour role" };
-
         discord_create_guild_application_command (
            handle, event->application->id, server_ids[i], &pronouns_remove_cmd,
            NULL);
         discord_create_guild_application_command (
            handle, event->application->id, server_ids[i], &color_cmd, NULL);
-        discord_create_guild_application_command (
-           handle, event->application->id, server_ids[i], &colour_cmd, NULL);
     }
 }
 
-// slash command interraction
-void bot_command_interaction (struct discord *handle,
-                              const struct discord_interaction *event) {
-    // return if not a slash command
-    if (event->type != DISCORD_INTERACTION_APPLICATION_COMMAND) return;
-
+// bot interraction routines
+void bot_interaction (struct discord *handle,
+                      const struct discord_interaction *event) {
+    // deferring event handling to respective files
+    pronoun_command_interaction (handle, event);
+    color_command_interaction (handle, event);
 }
 
 // main function to set up bot and run
@@ -84,8 +70,7 @@ int main (int argc, char *argv[]) {
 
     // add callbacks for bot
     discord_set_on_ready (handle, &bot_ready);
-    discord_set_on_interaction_create (handle, &bot_command_interaction);
-    discord_set_on_interaction_create (handle, &pronoun_command_interaction);
+    discord_set_on_interaction_create (handle, &bot_interaction);
 
     // run
     discord_run (handle);
