@@ -9,6 +9,7 @@ const u64snowflake server_ids[2] = {
     789234738350653460
 };
 
+
 int server_array_pos (u64snowflake server_id) {
     for (int i = 0; i < sizeof (server_ids) / sizeof (u64snowflake);
          i++)

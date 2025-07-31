@@ -79,6 +79,7 @@ struct discord_create_guild_application_command color_cmd
        = &(struct discord_application_command_options) { .array = _role_opts,
                                                          .size  = 1 } };
 
+                                                         
 #define match_role(x, y) \
     if (!strcmp (x, response)) return color_ids[pos].y;
 
