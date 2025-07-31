@@ -9,7 +9,7 @@ const struct color_id {
        lavender, pink, light_pink, brown, white, gray;
 } color_ids[] = {
     // test server
-    { .red        = 0,
+    { .red        = 1400267447440769025,
       .orange     = 1400265820445212742,
       .yellow     = 0,
       .lime       = 0,
@@ -110,16 +110,15 @@ void color_command_interaction (struct discord *handle,
     if (event->type != DISCORD_INTERACTION_APPLICATION_COMMAND) return;
 
     // if it isnt either, return now so rest of func isnt nested
-    if (strcmp ("color", event->data->name))
-        return;
+    if (strcmp ("color", event->data->name)) return;
 
     char response[128];
 
     if (event->data->options->size != 1)
         strcpy (response, "invalid command syntax");
     else {
-        u64snowflake role = color_role_id (
-           event->guild_id, event->data->options->array->value);
+        u64snowflake role = color_role_id (event->guild_id,
+                                           event->data->options->array->value);
 
         if (!role) strcpy (response, "invalid role specified");
         else {
@@ -129,12 +128,19 @@ void color_command_interaction (struct discord *handle,
             struct discord_remove_guild_member_role remove_params
                = { .reason = "replacing color role" };
 
-            // remove all color roles then add new
+            // remove existing color roles
+            // note: cannot remove the target role and add it back, discord api
+            // seems to not do things in order of them being called
             for (int i = 0, pos = server_array_pos (event->guild_id);
-                 i < sizeof (struct color_id) / sizeof (u64snowflake); i++)
-                discord_remove_guild_member_role (
-                   handle, event->guild_id, event->member->user->id,
-                   ((u64snowflake *) &color_ids[pos])[i], &remove_params, NULL);
+                 i < sizeof (struct color_id) / sizeof (u64snowflake); i++) {
+                u64snowflake target = ((u64snowflake *) &color_ids[pos])[i];
+
+                if (target != role)
+                    discord_remove_guild_member_role (
+                       handle, event->guild_id, event->member->user->id,
+                       ((u64snowflake *) &color_ids[pos])[i], &remove_params,
+                       NULL);
+            }
 
             discord_add_guild_member_role (handle, event->guild_id,
                                            event->member->user->id, role,
