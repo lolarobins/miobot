@@ -10,6 +10,7 @@
 #include <string.h>
 
 #include <concord/discord.h>
+#include <concord/logconf.h>
 
 #include "miobot.h"
 
@@ -17,7 +18,8 @@
 u64snowflake app_id;
 
 // bot initialization
-void bot_ready (struct discord *handle, const struct discord_ready *event) {
+static void bot_ready (struct discord *handle,
+                       const struct discord_ready *event) {
     printf ("connected to discord as %s#%s\n", event->user->username,
             event->user->discriminator);
 
@@ -38,11 +40,29 @@ void bot_ready (struct discord *handle, const struct discord_ready *event) {
 }
 
 // bot interraction routines
-void bot_interaction (struct discord *handle,
-                      const struct discord_interaction *event) {
+static void bot_interaction (struct discord *handle,
+                             const struct discord_interaction *event) {
     // deferring event handling to respective files
     pronoun_command_interaction (handle, event);
     color_command_interaction (handle, event);
+}
+
+// assign default role (too small to warrant its own file)
+static const u64snowflake default_roles[] = {
+    // test server
+    1400739455907659827,
+    // main server
+    789248904565882881
+};
+
+static void user_join (struct discord *handle,
+                       const struct discord_guild_member *event) {
+    struct discord_add_guild_member_role params
+       = { .reason = "adding default role" };
+
+    discord_add_guild_member_role (
+       handle, event->guild_id, event->user->id,
+       default_roles[server_array_pos (event->guild_id)], &params, NULL);
 }
 
 // main function to set up bot and run
@@ -78,7 +98,8 @@ int main (int argc, char *argv[]) {
     // add callbacks for bot
     discord_set_on_ready (handle, &bot_ready);
     discord_set_on_interaction_create (handle, &bot_interaction);
-
+    discord_set_on_guild_member_add (handle, &user_join);
+ 
     // run
     discord_run (handle);
 
