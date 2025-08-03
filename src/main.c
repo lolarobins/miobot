@@ -27,7 +27,7 @@ static void bot_ready (struct discord *handle,
     app_id = event->application->id;
 
     // register commands in all guilds
-    for (size_t i = 0; i < sizeof (server_ids) / sizeof (char *); i++) {
+    for (size_t i = 0; i < sizeof (server_ids) / sizeof (u64snowflake); i++) {
         discord_create_guild_application_command (
            handle, event->application->id, server_ids[i], &pronouns_add_cmd,
            NULL);
@@ -99,7 +99,7 @@ int main (int argc, char *argv[]) {
     discord_set_on_ready (handle, &bot_ready);
     discord_set_on_interaction_create (handle, &bot_interaction);
     discord_set_on_guild_member_add (handle, &user_join);
- 
+
     // run
     discord_run (handle);
 
