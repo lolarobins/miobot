@@ -78,6 +78,8 @@ static const struct _response _responses[]
        { "nya", _r_list (_meow_responses) },
        { "is this true", _r_list (_is_this_true_responses) },
        { "is", _r_list (_yes_no_responses) },
+       { "am", _r_list (_yes_no_responses) },
+       { "does", _r_list (_yes_no_responses) },
        { "do", _r_list (_yes_no_responses) } };
 
 static int _rand (int max) { return rand () % (max + 1); }
