@@ -85,7 +85,7 @@ void responses_message_cb (struct discord *handle,
 
     for (int i = 0; i < sizeof (_responses) / sizeof (struct _response); i++)
         if (!strncasecmp (message, _responses[i].phrase,
-                          strlen (_responses->phrase[i]))) {
+                          strlen (_responses[i].phrase))) {
             snprintf (response, 2048, "<@%lld> %s", event->author->id,
                       _responses[i].list[_rand (_responses[i].len - 1)]);
             break;
