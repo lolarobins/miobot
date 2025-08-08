@@ -37,6 +37,9 @@ static char *_piss_response[] = {
 
 static char *_fuck_you_responses[] = { "stfu faggot idc", "\xF0\x9F\x92\x94" };
 
+static char *_meow_responses[]
+   = { "meow!", ":3", "shut up gayass", "mrow :3", "ok homo" };
+
 static char *_is_this_true_responses[]
    = { "no",
        "fuck no",
@@ -47,6 +50,7 @@ static char *_is_this_true_responses[]
        "false-that%27s-false-true-fake-not-true-gif-7463876790346893009",
        "yes.",
        "yeah",
+       "<:feesh:1401969460621086762>",
        "https://tenor.com/view/"
        "trvthnvke-truth-nuke-truth-nuke-soyjakparty-gif-4864347364955876086",
        "https://tenor.com/view/"
@@ -60,6 +64,9 @@ static const struct _response _responses[]
        { "piss", _r_list (_piss_response) },
        { "does", _r_list (_is_this_true_responses) },
        { "fuck you", _r_list (_fuck_you_responses) },
+       { "meow", _r_list (_meow_responses) },
+       { "mrow", _r_list (_meow_responses) },
+       { "nya", _r_list (_meow_responses) },
        { "is this true", _r_list (_is_this_true_responses) } };
 
 static int _rand (int max) { return rand () % (max + 1); }
