@@ -30,6 +30,16 @@ static char *_drain_responses[] = {
     "https://tenor.com/view/bladee-drain-gang-silly-kitty-review-gif-27702138"
 };
 
+static char *_piss_response[] = {
+    { "I'm sorry, due to legal restrictions, I am not able to respond to this."},
+    { "I am not legally allowed to respond to this message."}
+};
+
+static char *_fuck_you_responses[] = {
+    { "stfu faggot idc"},
+    { "\xF0\x9F\x92\x94"}
+};
+
 static char *_is_this_true_responses[]
    = { "no",
        "fuck no",
@@ -50,6 +60,9 @@ static char *_is_this_true_responses[]
 static const struct _response _responses[]
    = { { "drain", _r_list (_drain_responses) },
        { "bladee", _r_list (_drain_responses) },
+       { "piss", _r_list (_piss_response) },
+       { "does", _r_list (_is_this_true_responses) },
+       { "fuck you", _r_list (_fuck_you_responses) },
        { "is this true", _r_list (_is_this_true_responses) } };
 
 static int _rand (int max) { return rand () % (max + 1); }
@@ -72,7 +85,7 @@ void responses_message_cb (struct discord *handle,
 
     for (int i = 0; i < sizeof (_responses) / sizeof (struct _response); i++)
         if (!strncasecmp (message, _responses[i].phrase,
-                          strlen (_responses->phrase))) {
+                          strlen (_responses->phrase[i]))) {
             snprintf (response, 2048, "<@%lld> %s", event->author->id,
                       _responses[i].list[_rand (_responses[i].len - 1)]);
             break;
