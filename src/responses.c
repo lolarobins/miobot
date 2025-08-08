@@ -50,8 +50,7 @@ static char *_is_this_true_responses[]
 static const struct _response _responses[]
    = { { "drain", _r_list (_drain_responses) },
        { "bladee", _r_list (_drain_responses) },
-       "is this true",
-       _r_list (_is_this_true_responses) };
+       { "is this true", _r_list (_is_this_true_responses) } };
 
 static int _rand (int max) { return rand () % (max + 1); }
 
