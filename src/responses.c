@@ -57,7 +57,8 @@ static char *_is_this_true_responses[]
        "https://tenor.com/view/"
        "true-truth-nuke-super-truth-nova-truth-meme-gif-16889273424352737553" };
 
-static char *_yes_no_responses[] = { "yea", "yes", "nah", "no" };
+static char *_yes_no_responses[]
+   = { "yea", "yes", "nah", "no", "idfk dude", "idk" };
 
 #define _r_list(x) x, sizeof (x) / sizeof (char *)
 
@@ -65,6 +66,7 @@ static const struct _response _responses[]
    = { { "drain", _r_list (_drain_responses) },
        { "bladee", _r_list (_drain_responses) },
        { "piss", _r_list (_piss_response) },
+       { "pee", _r_list (_piss_response) },
        { "does", _r_list (_is_this_true_responses) },
        { "fuck you", _r_list (_insult_responses) },
        { "i hate you", _r_list (_insult_responses) },
@@ -79,6 +81,7 @@ static const struct _response _responses[]
        { "is this true", _r_list (_is_this_true_responses) },
        { "is", _r_list (_yes_no_responses) },
        { "am", _r_list (_yes_no_responses) },
+       { "are", _r_list (_yes_no_responses) },
        { "does", _r_list (_yes_no_responses) },
        { "do", _r_list (_yes_no_responses) } };
 
