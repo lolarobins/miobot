@@ -57,6 +57,8 @@ static char *_is_this_true_responses[]
        "https://tenor.com/view/"
        "true-truth-nuke-super-truth-nova-truth-meme-gif-16889273424352737553" };
 
+static char *_yes_no_responses[] = { "yea", "yes", "nah", "no" };
+
 #define _r_list(x) x, sizeof (x) / sizeof (char *)
 
 static const struct _response _responses[]
@@ -74,7 +76,9 @@ static const struct _response _responses[]
        { "meow", _r_list (_meow_responses) },
        { "mrow", _r_list (_meow_responses) },
        { "nya", _r_list (_meow_responses) },
-       { "is this true", _r_list (_is_this_true_responses) } };
+       { "is this true", _r_list (_is_this_true_responses) },
+       { "is", _r_list (_yes_no_responses) },
+       { "do", _r_list (_yes_no_responses) } };
 
 static int _rand (int max) { return rand () % (max + 1); }
 
