@@ -31,14 +31,11 @@ static char *_drain_responses[] = {
 };
 
 static char *_piss_response[] = {
-    { "I'm sorry, due to legal restrictions, I am not able to respond to this."},
-    { "I am not legally allowed to respond to this message."}
+    "I'm sorry, due to legal restrictions, I am not able to respond to this.",
+    "I am not legally allowed to respond to this message."
 };
 
-static char *_fuck_you_responses[] = {
-    { "stfu faggot idc"},
-    { "\xF0\x9F\x92\x94"}
-};
+static char *_fuck_you_responses[] = { "stfu faggot idc", "\xF0\x9F\x92\x94" };
 
 static char *_is_this_true_responses[]
    = { "no",
