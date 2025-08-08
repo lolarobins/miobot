@@ -8,9 +8,10 @@
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include <time.h>
 
 #include <concord/discord.h>
-#include <concord/logconf.h>
 
 #include "miobot.h"
 
@@ -67,6 +68,9 @@ static void user_join (struct discord *handle,
 
 // main function to set up bot and run
 int main (int argc, char *argv[]) {
+    // seed random num
+    srand(time(NULL));
+
     // fetch bot token from file
     FILE *token_file;
     char token[128];
@@ -99,6 +103,11 @@ int main (int argc, char *argv[]) {
     discord_set_on_ready (handle, &bot_ready);
     discord_set_on_interaction_create (handle, &bot_interaction);
     discord_set_on_guild_member_add (handle, &user_join);
+    //discord_set_on_message_reaction_add (handle, &starboard_add_reaction_cb);
+    //discord_set_on_message_reaction_remove (handle,
+    //                                        &starboard_remove_reaction_cb);
+    //discord_set_on_message_delete (handle, &starboard_message_delete_cb);
+    discord_set_on_message_create (handle, &responses_message_cb);
 
     // run
     discord_run (handle);
