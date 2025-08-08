@@ -32,11 +32,16 @@ static char *_drain_responses[] = {
 
 static char *_piss_response[] = {
     "I'm sorry, due to legal restrictions, I am not able to respond to this.",
-    "I am not legally allowed to respond to this message."
+    "I am not legally allowed to respond to this message.",
+    "ok so let me get this straight, i am NOT into piss, i do not have a piss "
+    "kink, neither does lola, do not believe the lies that the media puts out "
+    "and the rumours that are spread within this community",
+    "...."
 };
 
 static char *_insult_responses[]
-   = { "stfu faggot idc", "\xF0\x9F\x92\x94", "wtf did i do????", "fuck you." };
+   = { "stfu idc", "\xF0\x9F\x92\x94", "wtf did i do????", "fuck you.",
+       "im sorry :((" };
 
 static char *_meow_responses[]
    = { "meow!", ":3", "shut up gayass", "mrow :3", "ok homo" };
@@ -67,6 +72,7 @@ static const struct _response _responses[]
        { "bladee", _r_list (_drain_responses) },
        { "piss", _r_list (_piss_response) },
        { "pee", _r_list (_piss_response) },
+       { "urine", _r_list (_piss_response) },
        { "does", _r_list (_is_this_true_responses) },
        { "fuck you", _r_list (_insult_responses) },
        { "i hate you", _r_list (_insult_responses) },
@@ -95,10 +101,17 @@ void responses_message_cb (struct discord *handle,
     snprintf (bot_mention_str, 64, "<@%lld>", app_id);
     size_t mention_len = strlen (bot_mention_str);
 
-    if (strncmp (bot_mention_str, event->content, mention_len)) return;
+    // pointer to start of message
+    char *message = NULL;
 
-    // get str ptr after mention
-    char *message = event->content + mention_len + 1;
+    if (!strncmp (bot_mention_str, event->content, mention_len))
+        message = event->content + mention_len + 1;
+    else if (event->referenced_message
+             && event->referenced_message->author->id == app_id)
+        message = event->content;
+    else
+        return;
+
     // response buf
     char response[2048];
     response[0] = 0;
