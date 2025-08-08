@@ -35,7 +35,8 @@ static char *_piss_response[] = {
     "I am not legally allowed to respond to this message."
 };
 
-static char *_fuck_you_responses[] = { "stfu faggot idc", "\xF0\x9F\x92\x94" };
+static char *_insult_responses[]
+   = { "stfu faggot idc", "\xF0\x9F\x92\x94", "wtf did i do????", "fuck you." };
 
 static char *_meow_responses[]
    = { "meow!", ":3", "shut up gayass", "mrow :3", "ok homo" };
@@ -63,7 +64,13 @@ static const struct _response _responses[]
        { "bladee", _r_list (_drain_responses) },
        { "piss", _r_list (_piss_response) },
        { "does", _r_list (_is_this_true_responses) },
-       { "fuck you", _r_list (_fuck_you_responses) },
+       { "fuck you", _r_list (_insult_responses) },
+       { "i hate you", _r_list (_insult_responses) },
+       { "you are gay", _r_list (_insult_responses) },
+       { "you're gay", _r_list (_insult_responses) },
+       { "your gay", _r_list (_insult_responses) },
+       { "kys", _r_list (_insult_responses) },
+       { "kill yourself", _r_list (_insult_responses) },
        { "meow", _r_list (_meow_responses) },
        { "mrow", _r_list (_meow_responses) },
        { "nya", _r_list (_meow_responses) },
