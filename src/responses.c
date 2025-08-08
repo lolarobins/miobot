@@ -83,7 +83,7 @@ void responses_message_cb (struct discord *handle,
     for (int i = 0; i < sizeof (_responses) / sizeof (struct _response); i++)
         if (!strncasecmp (message, _responses[i].phrase,
                           strlen (_responses[i].phrase))) {
-            snprintf (response, 2048, "<@%lld> %s", event->author->id,
+            snprintf (response, 2048, "%s",
                       _responses[i].list[_rand (_responses[i].len - 1)]);
             break;
         }
@@ -91,7 +91,13 @@ void responses_message_cb (struct discord *handle,
     // check if anything was written for a response
     if (!response[0]) return;
 
-    struct discord_create_message msg = { .content = response };
+    struct discord_message_reference msg_ref
+       = { .channel_id = event->channel_id,
+           .guild_id   = event->guild_id,
+           .message_id = event->id };
+
+    struct discord_create_message msg
+       = { .message_reference = &msg_ref, .content = response };
 
     // create post and cleanup
     discord_create_message (handle, event->channel_id, &msg, 0);
