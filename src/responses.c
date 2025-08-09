@@ -58,9 +58,13 @@ static const char *_is_this_true_responses[]
 
 static const char *_yes_no_responses[] = { "yea", "yes", "nah", "no", "idk" };
 
-static const char *_pick_response_prefix[]
-   = { "im choosing ", "gonna go with ", "definitely ",
-       "going w/ ",    "probably ",      "picking " };
+static const char *_pick_response_prefix[] = { "im choosing ",
+                                               "gonna go with ",
+                                               "definitely ",
+                                               "going w/ ",
+                                               "probably ",
+                                               "picking ",
+                                               "" };
 
 // response storage struct
 struct _response {
@@ -171,6 +175,15 @@ static const struct _response _responses[] = { // callbacks first
 
 void responses_message_cb (struct discord *handle,
                            const struct discord_message *event) {
+    // fish react override
+    if (event->referenced_message
+        && !strncasecmp (event->content, "fish react this", 15)) {
+        discord_create_reaction (handle, event->channel_id,
+                                 event->referenced_message->id,
+                                 1401969460621086762, 0, 0);
+        return;
+    }
+
     // start of message must be mentioning bot by id
     char bot_mention_str[64];
 
