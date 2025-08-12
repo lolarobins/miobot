@@ -155,7 +155,6 @@ static const struct _response __basic_responses[] = { // callbacks first
     { "dubai", _br_list (_brainrot_meme_responses) },
     { "matcha", _br_list (_brainrot_meme_responses) },
     { "sybau", _br_list (_brainrot_meme_responses) },
-    { "sdyibt", _br_list (_brainrot_meme_responses) },
 
     { "$im$ $gay$", _br_list (_dap_up_responses) },
     { "$im$ $trans$", _br_list (_dap_up_responses) },
@@ -177,7 +176,8 @@ static const struct _response __basic_responses[] = { // callbacks first
     { "do", _br_list (_yes_no_responses) },
     { "is", _br_list (_yes_no_responses) },
     { "will ", _br_list (_yes_no_responses) },
-    { "should ", _br_list (_yes_no_responses) }
+    { "should ", _br_list (_yes_no_responses) },
+    { "$are$ $you$", _br_list (_yes_no_responses) }
 };
 
 const struct _response *_basic_responses = __basic_responses;
@@ -223,8 +223,8 @@ static const char *__kys[] = { "kys", "kill yourself", "kill your self" };
 // smh
 static const char *__piss[] = { "piss", "pee", "urine" };
 
-static const char *__hi[]  = { "hi", "hai", "hello" };
-static const char *__bye[] = { "bye", "goodbye", "good bye" };
+static const char *__hi[]  = { "hi", "hii", "hai", "hello" };
+static const char *__bye[] = { "bye", "goodbye", "good bye", "cya" };
 static const char *__gn[]  = { "goodnight", "gn", "good night" };
 static const char *__gm[]  = { "goodmorning", "gm", "good morning" };
 
