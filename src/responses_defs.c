@@ -87,11 +87,12 @@ static const char *_dap_up_responses[]
        "dap me up twin" };
 
 static const char *_user_gay_trans_q_responses[]
-   = { "you definitely are", "maybe idk", "if ur asking me this, most likely",
-       "how tf would i know?", "extremely" };
+   = { "you definitely are",   "maybe idk", "if ur asking me this, most likely",
+       "how tf would i know?", "extremely", "erm, clocked as queer" };
 static const char *_bot_gay_trans_q_responses[]
    = { "i do not know gendor or sex i am a bot", "im literally just a bot",
-       "im just puter idk this whole queer thing" };
+       "im just puter idk this whole queer thing", "im a mystery",
+       "i cant be anything" };
 
 static const char *_is_this_true_responses[]
    = { "no",
@@ -162,6 +163,8 @@ static const struct _response __basic_responses[] = { // callbacks first
     { "am i $trans$", _br_list (_user_gay_trans_q_responses) },
     { "$are$ $you$ $gay$", _br_list (_bot_gay_trans_q_responses) },
     { "$are$ $you$ $trans$", _br_list (_bot_gay_trans_q_responses) },
+    { "$youre$ $gay$", _br_list (_bot_gay_trans_q_responses) },
+    { "$youre$ $trans$", _br_list (_bot_gay_trans_q_responses) },
 
     { "is $this$ true", _br_list (_is_this_true_responses) },
     { "true or false", _br_list (_is_this_true_responses) },
@@ -186,7 +189,7 @@ const size_t _basic_responses_len
 // for synonym array below
 static const char *__you[]      = { "you", "u" };
 static const char *__your[]     = { "your", "ur" };
-static const char *__youre[]    = { "youre", "ur", "you're", "you are" };
+static const char *__youre[]    = { "youre", "ur", "u r", "you're", "you are" };
 static const char *__im[]       = { "im", "i am", "i'm" };
 static const char *__are[]      = { "are", "r" };
 static const char *__why[]      = { "why", "y" };
@@ -206,11 +209,12 @@ static const char *__bad[] = { "bad", "shit", "awful" };
 // CONTENT WARNING: this is being used in a server with edgy gay people, who
 // more than qualify to use these words
 static const char *__gay[]
-   = { "gay", "queer", "lesbian", "a faggot", "a fag", "a homo", "homosexual" };
+   = { "gay",        "queer", "lesbian",  "a faggot", "a fag",    "a homo",
+       "homosexual", "bi",    "bisexual", "pan",      "pansexual" };
 static const char *__trans[]
-   = { "transgender", "nb",           "an nb",       "non-binary",
-       "non binary",  "a trans girl", "a trans guy", "transmasc",
-       "transfem",    "trans",        "tranny",      "a tranny" };
+   = { "transgender", "nb",           "an nb",       "enby",      "non-binary",
+       "non binary",  "a trans girl", "a trans guy", "transmasc", "transfem",
+       "trans",       "tranny",       "a tranny" };
 
 static const char *__kms[] = { "kms", "kill myself", "kill my self",
                                "killing myself", "killing my self" };
