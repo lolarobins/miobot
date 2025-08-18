@@ -86,7 +86,7 @@ static size_t _match_phrase (const char *phrase, const char *input) {
 }
 
 // specify n bytes for input, wraps _match_phrase
-//static size_t _match_phrase_n (const char *phrase, const char *input,
+// static size_t _match_phrase_n (const char *phrase, const char *input,
 //                               size_t len) {
 //    char cmp_str[len + 1];
 //    memcpy (cmp_str, input, len);
@@ -111,71 +111,50 @@ static const char *_pick_response_prefix[] = { "im choosing ",
                                                "picking ",
                                                "" };
 
-bool _pick_response (char *message, char *response) {
-    int skip_len = 0;
-
+bool _pick_number_response (char *message, char *response) {
     const char *prefix = _pick_response_prefix[rand_int (
        (sizeof (_pick_response_prefix) / sizeof (char *)) - 1)];
 
-    // a number
-    if (!strncasecmp (message, "a number between ", skip_len = 17)
-        || !strncasecmp (message, "a number from ", skip_len = 14)) {
-        message += skip_len;
+    // pointers to start of number strings
+    char *str_1 = message, *str_2 = NULL;
+    // 1 is set to 1 so increment is not needed in if statement below
+    int str_1_len = 1, str_2_len = 1;
 
-        // pointers to start of number strings
-        char *str_1 = message, *str_2 = NULL;
-        // 1 is set to 1 so increment is not needed in if statement below
-        int str_1_len = 1, str_2_len = 1;
+    // read first num
+    if (!(message[0] && (message[0] == '-' || isdigit (message[0]))))
+        return false;
+    while ((++message)[0] && isdigit (message[0])) str_1_len++;
 
-        // read first num
-        if (!(message[0] && (message[0] == '-' || isdigit (message[0]))))
-            return false;
-        while ((++message)[0] && isdigit (message[0])) str_1_len++;
+    // bytes to skip reading message
+    int skip_len = 0;
 
-        // verify grammar syntax
-        if (!(!strncasecmp (message, " and ", skip_len = 5)
-              || !strncasecmp (message, " to ", skip_len = 4)))
-            return false;
+    // verify grammar syntax
+    if (!(!strncasecmp (message, " and ", skip_len = 5)
+          || !strncasecmp (message, " to ", skip_len = 4)))
+        return false;
 
-        message += skip_len;
-        str_2 = message;
+    message += skip_len;
+    str_2 = message;
 
-        // read second num
-        if (!(message[0] && (message[0] == '-' || isdigit (message[0]))))
-            return false;
-        while ((++message)[0] && isdigit (message[0])) str_2_len++;
+    // read second num
+    if (!(message[0] && (message[0] == '-' || isdigit (message[0]))))
+        return false;
+    while ((++message)[0] && isdigit (message[0])) str_2_len++;
 
-        // set null pointers for using atoi
-        str_1[str_1_len] = 0, str_2[str_2_len] = 0;
-        int min = atoi (str_1), max = atoi (str_2), swap = 0;
+    // set null pointers for using atoi
+    str_1[str_1_len] = 0, str_2[str_2_len] = 0;
+    int min = atoi (str_1), max = atoi (str_2), swap = 0;
 
-        // swap numbers if min > max
-        if (min > max) {
-            swap = min;
-            max  = min;
-            min  = swap;
-        }
-
-        snprintf (response, RESPONSE_MAX, "%s%d", prefix,
-                  rand_range (min, max));
-
-        return true;
+    // swap numbers if min > max
+    if (min > max) {
+        swap = min;
+        max  = min;
+        min  = swap;
     }
 
-    // between a list of items, comma seperated list, max 32
-    if (!strncasecmp (message, "between ", skip_len = 8)
-        || !strncasecmp (message, "from ", skip_len = 5)
-        || !strncasecmp (message, "one: ", skip_len = 5)) {
-        message += skip_len;
+    snprintf (response, RESPONSE_MAX, "%s%d", prefix, rand_range (min, max));
 
-        // char *choices[8]  = { 0 };
-        // char *current_ptr = message;
-        // int current_len   = 0;
-
-        // seperate by commas, remove "or", check for end
-    }
-
-    return false;
+    return true;
 }
 
 void responses_message_cb (struct discord *handle,
@@ -203,11 +182,12 @@ void responses_message_cb (struct discord *handle,
 
     for (int i = 0; i < _basic_responses_len; i++) {
         const struct _response *resp = &_basic_responses[i];
+        size_t offset = 0;
 
-        if (_match_phrase (resp->phrase, message)) {
+        if ((offset = _match_phrase (resp->phrase, message))) {
             if (resp->callback) {
                 // give message pointer after message
-                if (resp->callback (message + strlen (resp->phrase), response))
+                if (resp->callback (message + offset, response))
                     break;
             } else {
                 snprintf (response, 2048, "%s",

@@ -13,7 +13,7 @@ static const char *_drain_responses[] = {
     "https://tenor.com/view/bladee-drain-gang-silly-kitty-review-gif-27702138"
 };
 
-static const char *_piss_response[] = {
+static const char *_piss_responses[] = {
     "I'm sorry, due to legal restrictions, I am not able to respond to this.",
     "I am not legally allowed to respond to this message.",
     "ok so let me get this straight, i am NOT into piss, i do not have a piss "
@@ -21,7 +21,8 @@ static const char *_piss_response[] = {
     "and the rumours that are spread within this community",
     "ok fr im not into it pls leave me alone",
     "this is a piss-free community",
-    "*from Brooxie:*\\n\\nSo Im going to to be honest: This server SUCKS now "
+    "\n***from Brooxie:***\n```So Im going to to be honest: This server SUCKS "
+    "now "
     "that Hornet Disaster has released. Everyone had group INSANITY during the "
     "creation of album of 2025, now everyone is just STUPID and privileged. "
     "Nobody even CARES about Weatherday OR Sputnik anymore. Its just PISS this "
@@ -31,8 +32,21 @@ static const char *_piss_response[] = {
     "GATEKEEPERS who keep Weatherday for the GAYS ONLY.  This community will "
     "SUCK until the album of 2030 eventually gets revealed, but even then it "
     "might still only be ABOUT PISS. NOBODY LIKES PISS. EVERYBODY SHOULD LIKE "
-    "WEATHERDAY. Thank you for your attention to this matter."
+    "WEATHERDAY. Thank you for your attention to this matter.```"
 };
+
+static const char *_meow_responses[]
+   = { "meeow",
+       "mrrow",
+       ":3",
+       ">:3",
+       "nya~~",
+       "gay...",
+       "https://media.discordapp.net/attachments/1399840782416085024/"
+       "1406788855486746674/"
+       "IMG_7962.jpg?ex=68a3bdb8&is=68a26c38&hm="
+       "fea9d3cf0ef1ce769a62cd8181540ee72e0ea0594c705358fb31d3569ab8d44d&=&"
+       "format=webp&width=308&height=250" };
 
 static const char *_insult_responses[]
    = { "\xF0\x9F\x92\x94",
@@ -44,7 +58,8 @@ static const char *_insult_responses[]
        "sad-cry-sniffle-emoji-tears-gif-13575003772459623402" };
 
 static const char *_threat_responses[]
-   = { ":((", "please dont", "\xF0\x9F\x92\x94" };
+   = { ":((", "please dont", "\xF0\x9F\x92\x94",
+       "dont hurt urself itll get better i promise<3" };
 
 static const char *_greeting_responses[]
    = { "hai!!!", "hi", "hello",
@@ -84,14 +99,23 @@ static const char *_dap_up_responses[]
    = { "https://tenor.com/view/"
        "bornskywalker-dap-me-up-woody-woody-handshake-woody-toy-story-gif-"
        "26021440",
-       "dap me up twin" };
+       "dap me up twin", "ayye good shit fr" };
 
 static const char *_user_gay_trans_q_responses[]
-   = { "you definitely are",   "maybe idk", "if ur asking me this, most likely",
-       "how tf would i know?", "extremely", "erm, clocked as queer" };
+   = { "you definitely are",
+       "maybe idk",
+       "if ur asking me this, most likely",
+       "how tf would i know?",
+       "extremely",
+       "erm, clocked as queer",
+       "checks out",
+       "yeah... of course you'd be one of them queers" };
 static const char *_bot_gay_trans_q_responses[]
-   = { "i do not know gendor or sex i am a bot", "im literally just a bot",
-       "im just puter idk this whole queer thing", "im a mystery",
+   = { "i do not know gendor or sexuality i am a bot",
+       "im literally just a bot",
+       "im just puter idk this whole queer thing",
+       "im a mystery",
+       "miobot cannot have the gender or sexuality im just a computer",
        "i cant be anything" };
 
 static const char *_is_this_true_responses[]
@@ -115,22 +139,27 @@ static const char *_is_this_true_responses[]
        "https://tenor.com/view/"
        "true-truth-nuke-super-truth-nova-truth-meme-gif-16889273424352737553" };
 
-static const char *_yes_no_responses[] = { "yea", "yes", "nah", "no", "idk" };
+static const char *_yes_no_responses[] = { "yea",
+                                           "yes",
+                                           "nah",
+                                           "no",
+                                           "idk",
+                                           "how would i know",
+                                           "yeah, sure, whatever",
+                                           "no." };
 
 #define _br_list(x)  x, sizeof (x) / sizeof (char *), NULL
 #define _callback(x) NULL, 0, x
 
 // basic phrases / sentence starters to look for
 static const struct _response __basic_responses[] = { // callbacks first
-    { "pick ", _callback (_pick_response) },
-    { "choose ", _callback (_pick_response) },
-    //    { "can you ", _callback (_can_you) },
+    { "$pick$ a number $between$ ", _callback (_pick_number_response) },
 
     // simple responses
     { "drain", _br_list (_drain_responses) },
     { "bladee", _br_list (_drain_responses) },
-
-    { "$piss$", _br_list (_piss_response) },
+    { "$piss$", _br_list (_piss_responses) },
+    { "$meow$", _br_list (_meow_responses) },
 
     { "fuck $you$", _br_list (_insult_responses) },
     { "i hate $you$", _br_list (_insult_responses) },
@@ -169,15 +198,14 @@ static const struct _response __basic_responses[] = { // callbacks first
     { "true or false", _br_list (_is_this_true_responses) },
 
     { "yes or no", _br_list (_yes_no_responses) },
-    { "can", _br_list (_yes_no_responses) },
-    { "am", _br_list (_yes_no_responses) },
-    { "are", _br_list (_yes_no_responses) },
-    { "does", _br_list (_yes_no_responses) },
-    { "do", _br_list (_yes_no_responses) },
-    { "is", _br_list (_yes_no_responses) },
+    { "can ", _br_list (_yes_no_responses) },
+    { "am ", _br_list (_yes_no_responses) },
+    { "does ", _br_list (_yes_no_responses) },
+    { "do ", _br_list (_yes_no_responses) },
+    { "is ", _br_list (_yes_no_responses) },
     { "will ", _br_list (_yes_no_responses) },
     { "should ", _br_list (_yes_no_responses) },
-    { "$are$ $you$", _br_list (_yes_no_responses) }
+    { "$are$ ", _br_list (_yes_no_responses) }
 };
 
 const struct _response *_basic_responses = __basic_responses;
@@ -195,6 +223,8 @@ static const char *__are[]      = { "are", "r" };
 static const char *__why[]      = { "why", "y" };
 static const char *__its[]      = { "its", "it's", "it is" };
 static const char *__ive[]      = { "ive", "i've", "i have" };
+static const char *__whats[]    = { "whats", "what's", "what is" };
+static const char *__about[]    = { "about", "abt" };
 static const char *__this[]     = { "this", "ts" };
 static const char *__dont[]     = { "dont", "don't", "do not" };
 static const char *__gonna[]    = { "gonna", "going to" };
@@ -204,7 +234,9 @@ static const char *__yes[]      = { "yes", "yeah", "yea", "ye" };
 static const char *__no[]       = { "nah", "nope", "no" };
 static const char *__good[]
    = { "good", "goated", "amazing", "excellent", "swag", "good asf" };
-static const char *__bad[] = { "bad", "shit", "awful" };
+static const char *__bad[]     = { "bad", "shit", "awful" };
+static const char *__pick[]    = { "pick", "choose", "select" };
+static const char *__between[] = { "between", "from" };
 
 // CONTENT WARNING: this is being used in a server with edgy gay people, who
 // more than qualify to use these words
@@ -222,6 +254,7 @@ static const char *__kys[] = { "kys", "kill yourself", "kill your self" };
 
 // smh
 static const char *__piss[] = { "piss", "pee", "urine" };
+static const char *__meow[] = { "meow", "mrow", ":3", "nya", "mrrp", "mrrow" };
 
 static const char *__hi[]  = { "hi", "hii", "hai", "hello" };
 static const char *__bye[] = { "bye", "goodbye", "good bye", "cya" };
@@ -240,6 +273,8 @@ static const struct _kv_list_pair __synonyms[]
        { "why", _list_item (__why) },
        { "its", _list_item (__its) },
        { "ive", _list_item (__ive) },
+       { "whats", _list_item (__whats) },
+       { "about", _list_item (__about) },
        { "this", _list_item (__this) },
        { "dont", _list_item (__dont) },
        { "gonna", _list_item (__gonna) },
@@ -248,12 +283,15 @@ static const struct _kv_list_pair __synonyms[]
        { "yes", _list_item (__yes) },
        { "no", _list_item (__no) },
        { "good", _list_item (__good) },
+       { "pick", _list_item (__pick) },
+       { "between", _list_item (__between) },
        { "bad", _list_item (__bad) },
        { "gay", _list_item (__gay) },
        { "trans", _list_item (__trans) },
        { "kms", _list_item (__kms) },
        { "kys", _list_item (__kys) },
        { "piss", _list_item (__piss) },
+       { "meow", _list_item (__meow) },
        { "hi", _list_item (__hi) },
        { "bye", _list_item (__bye) },
        { "gm", _list_item (__gm) },
