@@ -111,6 +111,28 @@ static const char *_pick_response_prefix[] = { "im choosing ",
                                                "picking ",
                                                "" };
 
+#define _append_ts(x, y)                                                   \
+    if (elapsed->tm_##x)                                                   \
+        print_cur                                                          \
+           += snprintf (response + print_cur, RESPONSE_MAX, "%d " y "%s ", \
+                        elapsed->tm_##x, elapsed->tm_##x == 1 ? "" : "s");
+
+bool _bot_uptime_response (char *message, char *response) {
+    time_t diff        = time (NULL) - start_time;
+    struct tm *elapsed = gmtime (&diff);
+    size_t print_cur   = 0;
+
+    elapsed->tm_year -= 70;
+
+    _append_ts (year, "year");
+    _append_ts (yday, "day");
+    _append_ts (hour, "hour");
+    _append_ts (min, "minute");
+    _append_ts (sec, "second");
+
+    return true;
+}
+
 bool _pick_number_response (char *message, char *response) {
     const char *prefix = _pick_response_prefix[rand_int (
        (sizeof (_pick_response_prefix) / sizeof (char *)) - 1)];
@@ -182,13 +204,12 @@ void responses_message_cb (struct discord *handle,
 
     for (int i = 0; i < _basic_responses_len; i++) {
         const struct _response *resp = &_basic_responses[i];
-        size_t offset = 0;
+        size_t offset                = 0;
 
         if ((offset = _match_phrase (resp->phrase, message))) {
             if (resp->callback) {
                 // give message pointer after message
-                if (resp->callback (message + offset, response))
-                    break;
+                if (resp->callback (message + offset, response)) break;
             } else {
                 snprintf (response, 2048, "%s",
                           resp->list[rand_int (resp->len - 1)]);

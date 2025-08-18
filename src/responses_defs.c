@@ -148,12 +148,21 @@ static const char *_yes_no_responses[] = { "yea",
                                            "yeah, sure, whatever",
                                            "no." };
 
+static const char *_bot_name_responses[] = { "miobot" };
+
 #define _br_list(x)  x, sizeof (x) / sizeof (char *), NULL
 #define _callback(x) NULL, 0, x
 
 // basic phrases / sentence starters to look for
 static const struct _response __basic_responses[] = { // callbacks first
+    // random selection responses
     { "$pick$ a number $between$ ", _callback (_pick_number_response) },
+
+    // bot info responses
+    { "$whats$ $your$ uptime", _callback (_bot_uptime_response) }, // ADD CB
+    { "$whats$ $your$ name", _br_list (_bot_name_responses) },
+    { "$whats$ $your$ gender", _br_list (_bot_gay_trans_q_responses) },
+    { "$whats$ $your$ sexuality", _br_list (_bot_gay_trans_q_responses) },
 
     // simple responses
     { "drain", _br_list (_drain_responses) },
@@ -168,7 +177,6 @@ static const struct _response __basic_responses[] = { // callbacks first
     { "clanker", _br_list (_insult_responses) },
     { "$youre$ a clanker", _br_list (_insult_responses) },
 
-    // this has to exist for a reason, will be changed up on approach
     { "$im$ $gonna$ $kms$", _br_list (_threat_responses) },
     { "$gonna$ $kms$", _br_list (_threat_responses) },
     { "i $wanna$ $kms$", _br_list (_threat_responses) },
@@ -199,6 +207,7 @@ static const struct _response __basic_responses[] = { // callbacks first
 
     { "yes or no", _br_list (_yes_no_responses) },
     { "can ", _br_list (_yes_no_responses) },
+    { "could ", _br_list (_yes_no_responses) },
     { "am ", _br_list (_yes_no_responses) },
     { "does ", _br_list (_yes_no_responses) },
     { "do ", _br_list (_yes_no_responses) },

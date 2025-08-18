@@ -15,6 +15,8 @@ extern "C" {
 
 extern u64snowflake app_id;
 
+extern time_t start_time;
+
 extern const u64snowflake server_ids[2];
 
 extern int server_array_pos (u64snowflake server_id);

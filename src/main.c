@@ -9,7 +9,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <time.h>
 
 #include <concord/discord.h>
 
@@ -17,6 +16,9 @@
 
 // stored app id
 u64snowflake app_id;
+
+// start time
+time_t start_time;
 
 // bot initialization
 static void bot_ready (struct discord *handle,
@@ -68,9 +70,12 @@ static void user_join (struct discord *handle,
 
 // main function to set up bot and run
 int main (int argc, char *argv[]) {
+    // start time, used for uptime calculations
+    start_time = time(NULL);
+
     // seed random num
     srand(time(NULL));
-
+    
     // fetch bot token from file
     FILE *token_file;
     char token[128];
