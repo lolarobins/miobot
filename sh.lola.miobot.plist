@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+launchd (macos) service for miobot
+copyright (c) 2025 lolasnotunix
+
+path to miobot dir must be changed away from "/User/lola/"
+find a working directory to set and ensure proper permissions
+will need to copy miobot executable to /usr/local/bin
+
+sudo cp miobot /usr/local/bin
+cp sh.lola.miobot.plist ~/Library/LaunchAgents 
+launchctl load ~/Library/LaunchAgents/sh.lola.miobot.plist
+launchctl start sh.lola.miobot
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>Label</key>
+        <string>sh.lola.miobot</string>
+
+        <key>ProgramArguments</key>
+        <array>
+            <string>/usr/local/bin/miobot</string>
+        </array>
+
+        <key>WorkingDirectory</key>
+        <string>/Users/lola/miobot</string>
+
+        <key>RunAtLoad</key>
+        <true />
+
+        <key>KeepAlive</key>
+        <true />
+
+        <key>StandardOutPath</key>
+        <string>/Users/lola/output.log</string>
+
+        <key>StandardErrorPath</key>
+        <string>/Users/lola/output.log</string>
+    </dict>
+</plist>
