@@ -33,9 +33,9 @@ launchctl start sh.lola.miobot
         <true />
 
         <key>StandardOutPath</key>
-        <string>/Users/lola/output.log</string>
+        <string>/Users/lola/miobot/output.log</string>
 
         <key>StandardErrorPath</key>
-        <string>/Users/lola/output.log</string>
+        <string>/Users/lola/miobot/output.log</string>
     </dict>
 </plist>
