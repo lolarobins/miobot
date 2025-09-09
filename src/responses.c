@@ -8,6 +8,8 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/resource.h>
+#include <sys/utsname.h>
 
 #include <concord/discord.h>
 
@@ -98,6 +100,7 @@ static size_t _match_phrase (const char *phrase, const char *input) {
 static int rand_range (int min, int max) {
     return (rand () % (max - min + 1)) + min;
 }
+
 static int rand_int (int max) { return rand_range (0, max); }
 
 // callback funcs to be added to struct below
@@ -111,16 +114,28 @@ static const char *_pick_response_prefix[] = { "im choosing ",
                                                "picking ",
                                                "" };
 
-#define _append_ts(x, y)                                                   \
-    if (elapsed->tm_##x)                                                   \
-        print_cur                                                          \
-           += snprintf (response + print_cur, RESPONSE_MAX, "%d " y "%s ", \
+#define _append_ts(x, y)                                                     \
+    if (elapsed->tm_##x)                                                     \
+        print_cur                                                            \
+           += snprintf (uptime_str + print_cur, RESPONSE_MAX, "%d " y "%s ", \
                         elapsed->tm_##x, elapsed->tm_##x == 1 ? "" : "s");
 
-bool _bot_uptime_response (char *message, char *response) {
+bool _bot_stats_response (char *message, char *response) {
+    struct utsname sysname;
+    struct rusage self;
+
+    // host platform information
+    if (uname (&sysname)) {
+        snprintf (response, RESPONSE_MAX,
+                  "error: failed to get system information");
+        return false;
+    }
+
+    // bot uptime calculation
     time_t diff        = time (NULL) - start_time;
     struct tm *elapsed = gmtime (&diff);
-    size_t print_cur   = 0;
+    char uptime_str[256];
+    size_t print_cur = 0;
 
     elapsed->tm_year -= 70;
 
@@ -129,6 +144,17 @@ bool _bot_uptime_response (char *message, char *response) {
     _append_ts (hour, "hour");
     _append_ts (min, "minute");
     _append_ts (sec, "second");
+
+    // memory usage
+    if (getrusage (RUSAGE_SELF, &self)) {
+        snprintf (response, RESPONSE_MAX,
+                  "error: failed to get resource usage information");
+        return false;
+    }
+
+    snprintf (response, RESPONSE_MAX,
+              "- host platform: %s %s %s\n- current uptime: %s", sysname.sysname,
+              sysname.release, sysname.machine, uptime_str);
 
     return true;
 }

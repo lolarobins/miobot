@@ -148,7 +148,7 @@ static const char *_yes_no_responses[] = { "yea",
                                            "yeah, sure, whatever",
                                            "no." };
 
-static const char *_bot_name_responses[] = { "miobot" };
+static const char *_bot_name_responses[] = { "miobot", "im miobot" };
 
 #define _br_list(x)  x, sizeof (x) / sizeof (char *), NULL
 #define _callback(x) NULL, 0, x
@@ -159,8 +159,9 @@ static const struct _response __basic_responses[] = { // callbacks first
     { "$pick$ a number $between$ ", _callback (_pick_number_response) },
 
     // bot info responses
-    { "$whats$ $your$ uptime", _callback (_bot_uptime_response) }, // ADD CB
+    { "stats", _callback (_bot_stats_response) },
     { "$whats$ $your$ name", _br_list (_bot_name_responses) },
+    { "miobot", _br_list (_bot_name_responses) },
     { "$whats$ $your$ gender", _br_list (_bot_gay_trans_q_responses) },
     { "$whats$ $your$ sexuality", _br_list (_bot_gay_trans_q_responses) },
 
@@ -176,6 +177,7 @@ static const struct _response __basic_responses[] = { // callbacks first
     { "bitch", _br_list (_insult_responses) },
     { "clanker", _br_list (_insult_responses) },
     { "$youre$ a clanker", _br_list (_insult_responses) },
+    { "faggot", _br_list (_insult_responses) },
 
     { "$im$ $gonna$ $kms$", _br_list (_threat_responses) },
     { "$gonna$ $kms$", _br_list (_threat_responses) },

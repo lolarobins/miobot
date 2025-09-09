@@ -32,7 +32,7 @@ extern const struct _kv_list_pair *_synonyms;
 extern const size_t _synonyms_len;
 
 // callbacks for internal use
-extern bool _bot_uptime_response (char *message, char *response);
+extern bool _bot_stats_response (char *message, char *response);
 extern bool _pick_number_response (char *message, char *response);
 
 #ifdef __cplusplus
