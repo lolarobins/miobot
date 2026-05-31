@@ -64,29 +64,32 @@ static void verify_cb (struct discord *handle,
                        const struct discord_message *event) {
     if (event->channel_id != verification_channel) return;
 
+    // sumn wrong
     if (event->content[0] == '\0') {
-        struct discord_create_message msg = { .content = "miobot fucked up again (ignore this!)"};
-        discord_create_message(handle, 789235818367549522, &msg, NULL);
-    }
-
-    if (!strncasecmp ("verify", event->content, 6)) {
-        struct discord_add_guild_member_role role
-           = { .reason = "adding default role" };
-
-        discord_add_guild_member_role (handle, event->guild_id,
-                                       event->author->id, default_role, &role,
-                                       NULL);
+        struct discord_create_message msg
+           = { .content = "miobot fucked up again (ignore this!)" };
+        discord_create_message (handle, 789235818367549522, &msg, NULL);
     } else {
-        char str_buf[1024];
-        snprintf (str_buf, 1024,
-                  "user **%s** (<@%llu>) sent an invalid or "
-                  "suspicious verification response in #waiting-room\n`%s`",
-                  event->author->username, event->author->id, event->content);
-        strcpy (&str_buf[1024] - 5, "...`");
+        if (!strncasecmp ("verify", event->content, 6)) {
+            struct discord_add_guild_member_role role
+               = { .reason = "adding default role" };
 
-        struct discord_create_message msg = { .content = str_buf };
+            discord_add_guild_member_role (handle, event->guild_id,
+                                           event->author->id, default_role,
+                                           &role, NULL);
+        } else {
+            char str_buf[1024];
+            snprintf (str_buf, 1024,
+                      "user **%s** (<@%llu>) sent an invalid or "
+                      "suspicious verification response in #waiting-room\n`%s`",
+                      event->author->username, event->author->id,
+                      event->content);
+            strcpy (&str_buf[1024] - 5, "...`");
 
-        discord_create_message (handle, notification_channel, &msg, 0);
+            struct discord_create_message msg = { .content = str_buf };
+
+            discord_create_message (handle, notification_channel, &msg, 0);
+        }
     }
 
     struct discord_delete_message delete
