@@ -63,11 +63,6 @@ static const u64snowflake default_role         = 789248904565882881,
 static void verify_cb (struct discord *handle,
                        const struct discord_message *event) {
     if (event->channel_id != verification_channel) return;
-    struct discord_delete_message delete
-       = { "standard auto-deletion of messages in verification channel" };
-
-    discord_delete_message (handle, event->channel_id, event->id, &delete,
-                            NULL);
 
     if (!strncasecmp ("verify", event->content, 6)) {
         struct discord_add_guild_member_role role
@@ -88,6 +83,12 @@ static void verify_cb (struct discord *handle,
 
         discord_create_message (handle, notification_channel, &msg, 0);
     }
+
+    struct discord_delete_message delete
+       = { "standard auto-deletion of messages in verification channel" };
+
+    discord_delete_message (handle, event->channel_id, event->id, &delete,
+                            NULL);
 }
 
 static void create_message (struct discord *handle,
