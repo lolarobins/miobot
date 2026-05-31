@@ -23,7 +23,7 @@ time_t start_time;
 // server id
 // test: 1399840781786812516
 // main: 789234738350653460
-u64snowflake server_id = 1399840781786812516;
+u64snowflake server_id = 789234738350653460;
 
 // bot initialization
 static void bot_ready (struct discord *handle,
