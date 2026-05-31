@@ -57,7 +57,7 @@ static void bot_interaction (struct discord *handle,
 
 // assign default role (too small to warrant its own file)
 static const u64snowflake default_role         = 789248904565882881,
-                          verification_channel = 1388901393045262567,
+                          verification_channel = 1510749506126479610,
                           notification_channel = 952656685221179502;
 
 static void verify_cb (struct discord *handle,
