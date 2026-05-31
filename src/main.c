@@ -64,6 +64,11 @@ static void verify_cb (struct discord *handle,
                        const struct discord_message *event) {
     if (event->channel_id != verification_channel) return;
 
+    if (event->content[0] == '\0') {
+        struct discord_create_message msg = { .content = "miobot fucked up again (ignore this!)"};
+        discord_create_message(handle, 789235818367549522, &msg, NULL);
+    }
+
     if (!strncasecmp ("verify", event->content, 6)) {
         struct discord_add_guild_member_role role
            = { .reason = "adding default role" };
@@ -74,7 +79,7 @@ static void verify_cb (struct discord *handle,
     } else {
         char str_buf[1024];
         snprintf (str_buf, 1024,
-                  "**warning**: user **%s** (<@%llu>) sent an invalid or "
+                  "user **%s** (<@%llu>) sent an invalid or "
                   "suspicious verification response in #waiting-room\n`%s`",
                   event->author->username, event->author->id, event->content);
         strcpy (&str_buf[1024] - 5, "...`");
