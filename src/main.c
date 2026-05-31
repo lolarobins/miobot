@@ -57,7 +57,7 @@ static void bot_interaction (struct discord *handle,
 
 // assign default role (too small to warrant its own file)
 static const u64snowflake default_role         = 789248904565882881,
-                          verification_channel = 1510749506126479610,
+                          verification_channel = 1388901393045262567,
                           notification_channel = 952656685221179502;
 
 static void verify_cb (struct discord *handle,
@@ -66,9 +66,6 @@ static void verify_cb (struct discord *handle,
 
     // sumn wrong
     if (event->content[0] == '\0') {
-        struct discord_create_message msg
-           = { .content = "miobot fucked up again (ignore this!)" };
-        discord_create_message (handle, 789235818367549522, &msg, NULL);
     } else {
         if (!strncasecmp ("verify", event->content, 6)) {
             struct discord_add_guild_member_role role
@@ -87,7 +84,6 @@ static void verify_cb (struct discord *handle,
             strcpy (&str_buf[1024] - 5, "...`");
 
             struct discord_create_message msg = { .content = str_buf };
-
             discord_create_message (handle, notification_channel, &msg, 0);
         }
     }
@@ -140,6 +136,12 @@ int main (int argc, char *argv[]) {
         ccord_global_cleanup ();
         return 1;
     }
+
+    u64bitmask intents = DISCORD_GATEWAY_GUILDS
+                           | DISCORD_GATEWAY_GUILD_MESSAGES
+                           | DISCORD_GATEWAY_MESSAGE_CONTENT;
+
+    discord_add_intents(handle, intents);
 
     // add callbacks for bot
     discord_set_on_ready (handle, &bot_ready);
