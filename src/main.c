@@ -1,14 +1,14 @@
 // +--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+
 // | miobot - discord bot for the 'Sputnik Supporters' discord server  |
-// |           MIT license - copyright (c) 2025 lolasnotunix           |
+// |        MIT license - copyright (c) 2025-2026 lolasnotunix         |
 // |                                                                   |
 // |         main.c = bot setup and other initialization stuff         |
 // +--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+
 
 #include <errno.h>
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include <concord/discord.h>
 
@@ -20,6 +20,11 @@ u64snowflake app_id;
 // start time
 time_t start_time;
 
+// server id
+// test: 1399840781786812516
+// main: 789234738350653460
+u64snowflake server_id = 1399840781786812516;
+
 // bot initialization
 static void bot_ready (struct discord *handle,
                        const struct discord_ready *event) {
@@ -29,17 +34,16 @@ static void bot_ready (struct discord *handle,
     // store provided app id
     app_id = event->application->id;
 
-    // register commands in all guilds
-    for (size_t i = 0; i < sizeof (server_ids) / sizeof (u64snowflake); i++) {
-        discord_create_guild_application_command (
-           handle, event->application->id, server_ids[i], &pronouns_add_cmd,
-           NULL);
-        discord_create_guild_application_command (
-           handle, event->application->id, server_ids[i], &pronouns_remove_cmd,
-           NULL);
-        discord_create_guild_application_command (
-           handle, event->application->id, server_ids[i], &color_cmd, NULL);
-    }
+    discord_create_guild_application_command (
+       handle, event->application->id, server_id, &pronouns_add_cmd, NULL);
+    discord_create_guild_application_command (
+       handle, event->application->id, server_id, &pronouns_remove_cmd, NULL);
+    discord_create_guild_application_command (handle, event->application->id,
+                                              server_id, &ping_add_cmd, NULL);
+    discord_create_guild_application_command (
+       handle, event->application->id, server_id, &ping_remove_cmd, NULL);
+    discord_create_guild_application_command (handle, event->application->id,
+                                              server_id, &color_cmd, NULL);
 }
 
 // bot interraction routines
@@ -47,35 +51,59 @@ static void bot_interaction (struct discord *handle,
                              const struct discord_interaction *event) {
     // deferring event handling to respective files
     pronoun_command_interaction (handle, event);
+    ping_command_interaction (handle, event);
     color_command_interaction (handle, event);
 }
 
 // assign default role (too small to warrant its own file)
-static const u64snowflake default_roles[] = {
-    // test server
-    1400739455907659827,
-    // main server
-    789248904565882881
-};
+static const u64snowflake default_role         = 789248904565882881,
+                          verification_channel = 1388901393045262567,
+                          notification_channel = 952656685221179502;
 
-static void user_join (struct discord *handle,
-                       const struct discord_guild_member *event) {
-    struct discord_add_guild_member_role params
-       = { .reason = "adding default role" };
+static void verify_cb (struct discord *handle,
+                       const struct discord_message *event) {
+    if (event->channel_id != verification_channel) return;
+    struct discord_delete_message delete
+       = { "standard auto-deletion of messages in verification channel" };
 
-    discord_add_guild_member_role (
-       handle, event->guild_id, event->user->id,
-       default_roles[server_array_pos (event->guild_id)], &params, NULL);
+    discord_delete_message (handle, event->channel_id, event->id, &delete,
+                            NULL);
+
+    if (!strncasecmp ("verify", event->content, 6)) {
+        struct discord_add_guild_member_role role
+           = { .reason = "adding default role" };
+
+        discord_add_guild_member_role (handle, event->guild_id,
+                                       event->author->id, default_role, &role,
+                                       NULL);
+    } else {
+        char str_buf[1024];
+        snprintf (str_buf, 1024,
+                  "**warning**: user **%s** (<@%llu>) sent an invalid or "
+                  "suspicious verification response in #waiting-room\n`%s`",
+                  event->author->username, event->author->id, event->content);
+        strcpy (&str_buf[1024] - 5, "...`");
+
+        struct discord_create_message msg = { .content = str_buf };
+
+        discord_create_message (handle, notification_channel, &msg, 0);
+    }
+}
+
+static void create_message (struct discord *handle,
+                            const struct discord_message *event) {
+    verify_cb (handle, event);
+    responses_message_cb (handle, event);
 }
 
 // main function to set up bot and run
 int main (int argc, char *argv[]) {
     // start time, used for uptime calculations
-    start_time = time(NULL);
+    start_time = time (NULL);
 
     // seed random num
-    srand(time(NULL));
-    
+    srand (time (NULL));
+
     // fetch bot token from file
     FILE *token_file;
     char token[128];
@@ -107,12 +135,8 @@ int main (int argc, char *argv[]) {
     // add callbacks for bot
     discord_set_on_ready (handle, &bot_ready);
     discord_set_on_interaction_create (handle, &bot_interaction);
-    discord_set_on_guild_member_add (handle, &user_join);
-    //discord_set_on_message_reaction_add (handle, &starboard_add_reaction_cb);
-    //discord_set_on_message_reaction_remove (handle,
-    //                                        &starboard_remove_reaction_cb);
-    //discord_set_on_message_delete (handle, &starboard_message_delete_cb);
-    discord_set_on_message_create (handle, &responses_message_cb);
+    // discord_set_on_guild_member_add (handle, &user_join);
+    discord_set_on_message_create (handle, &create_message);
 
     // run
     discord_run (handle);

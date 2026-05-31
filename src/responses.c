@@ -1,6 +1,6 @@
 // +--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+
 // | miobot - discord bot for the 'Sputnik Supporters' discord server  |
-// |           MIT license - copyright (c) 2025 lolasnotunix           |
+// |        MIT license - copyright (c) 2025-2026 lolasnotunix         |
 // |                                                                   |
 // |   responses.c - bot message responses to messages mentioning it   |
 // +--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+
@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/resource.h>
+#include <sys/sysctl.h>
 #include <sys/utsname.h>
 
 #include <concord/discord.h>
@@ -17,6 +18,10 @@
 #include "responses.h"
 
 #define RESPONSE_MAX 4096
+
+static u64snowflake disallowed_channels[] = { 
+    // waiting-room
+    1388901393045262567 };
 
 // returns amt of characters read if match is found
 static size_t _match_kv_list (const struct _kv_list_pair *list, size_t list_len,
@@ -122,7 +127,7 @@ static const char *_pick_response_prefix[] = { "im choosing ",
 
 bool _bot_stats_response (char *message, char *response) {
     struct utsname sysname;
-    struct rusage self;
+    struct rusage usage;
 
     // host platform information
     if (uname (&sysname)) {
@@ -146,15 +151,15 @@ bool _bot_stats_response (char *message, char *response) {
     _append_ts (sec, "second");
 
     // memory usage
-    if (getrusage (RUSAGE_SELF, &self)) {
+    if (getrusage (RUSAGE_SELF, &usage)) {
         snprintf (response, RESPONSE_MAX,
                   "error: failed to get resource usage information");
         return false;
     }
 
     snprintf (response, RESPONSE_MAX,
-              "- host platform: %s %s %s\n- current uptime: %s", sysname.sysname,
-              sysname.release, sysname.machine, uptime_str);
+              "- host platform: %s %s %s\n- current uptime: %s",
+              sysname.sysname, sysname.release, sysname.machine, uptime_str);
 
     return true;
 }
@@ -207,6 +212,10 @@ bool _pick_number_response (char *message, char *response) {
 
 void responses_message_cb (struct discord *handle,
                            const struct discord_message *event) {
+    for (int i = 0; i < sizeof (disallowed_channels) / sizeof (u64snowflake);
+         i++)
+        if (event->channel_id == disallowed_channels[i]) return;
+
     // start of message must be mentioning bot by id
     char bot_mention_str[64];
 

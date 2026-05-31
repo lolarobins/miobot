@@ -1,3 +1,10 @@
+// +--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+
+// | miobot - discord bot for the 'Sputnik Supporters' discord server  |
+// |        MIT license - copyright (c) 2025-2026 lolasnotunix         |
+// |                                                                   |
+// |          responses_defs.c - definitions for responses.c           |
+// +--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+
+
 #include "responses.h"
 
 // groups of general / catch-all responses

@@ -1,6 +1,6 @@
 // +--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+
 // | miobot - discord bot for the 'Sputnik Supporters' discord server  |
-// |           MIT license - copyright (c) 2025 lolasnotunix           |
+// |        MIT license - copyright (c) 2025-2026 lolasnotunix         |
 // |                                                                   |
 // |     miobot.h - all-purpose header file for the miobot project     |
 // +--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---+
@@ -17,16 +17,18 @@ extern u64snowflake app_id;
 
 extern time_t start_time;
 
-extern const u64snowflake server_ids[2];
-
-extern int server_array_pos (u64snowflake server_id);
-
 extern struct discord_create_guild_application_command pronouns_add_cmd;
 extern struct discord_create_guild_application_command pronouns_remove_cmd;
 
 extern void
    pronoun_command_interaction (struct discord *handle,
                                 const struct discord_interaction *event);
+
+extern struct discord_create_guild_application_command ping_add_cmd;
+extern struct discord_create_guild_application_command ping_remove_cmd;
+
+extern void ping_command_interaction (struct discord *handle,
+                                      const struct discord_interaction *event);
 
 extern struct discord_create_guild_application_command color_cmd;
 

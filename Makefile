@@ -1,4 +1,4 @@
-# miobot (c) lolasnotunix 2025 under MIT license
+# miobot (c) lolasnotunix 2025-2026 under MIT license
 #
 # uses concord library for using the discord api
 # https://github.com/Cogmasters/concord
@@ -13,7 +13,7 @@ CFLAGS=-O2 -g -Wall -I/usr/local/include
 LDFLAGS=-L/usr/local/lib -lcurl -ldiscord -lpthread
 TARGET=miobot
 OBJS=build/main.o build/misc.o build/pronouns.o build/colors.o \
-build/responses.o build/responses_defs.o #build/starboard.o
+build/responses.o build/responses_defs.o build/pings.o
 
 target: $(TARGET)
 
