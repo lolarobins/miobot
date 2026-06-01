@@ -146,6 +146,13 @@ static const char *_is_this_true_responses[]
        "https://tenor.com/view/"
        "true-truth-nuke-super-truth-nova-truth-meme-gif-16889273424352737553" };
 
+static const char *_cat_response[]
+   = { "https://media.discordapp.net/attachments/1097575336834768967/"
+       "1477516781093523497/"
+       "togif_25.gif?ex=6a1dad7b&is=6a1c5bfb&hm="
+       "3635ae4dc490911ba7ae64845c6009304c859276d7962aa85f79ae6c68c3f7de&=&"
+       "width=977&height=1215" };
+
 static const char *_yes_no_responses[] = { "yea",
                                            "yes",
                                            "nah",
@@ -161,7 +168,8 @@ static const char *_bot_name_responses[] = { "miobot", "im miobot" };
 #define _callback(x) NULL, 0, x
 
 // basic phrases / sentence starters to look for
-static const struct _response __basic_responses[] = { // callbacks first
+static const struct _response __basic_responses[] = {
+    // callbacks first
     // random selection responses
     { "$pick$ a number $between$ ", _callback (_pick_number_response) },
 
@@ -213,6 +221,10 @@ static const struct _response __basic_responses[] = { // callbacks first
 
     { "is $this$ true", _br_list (_is_this_true_responses) },
     { "true or false", _br_list (_is_this_true_responses) },
+    { "real?", _br_list (_is_this_true_responses) },
+
+    { "cat", _br_list (_cat_response)},
+    { "show me a cat", _br_list (_cat_response)},
 
     { "yes or no", _br_list (_yes_no_responses) },
     { "can ", _br_list (_yes_no_responses) },
@@ -223,7 +235,8 @@ static const struct _response __basic_responses[] = { // callbacks first
     { "is ", _br_list (_yes_no_responses) },
     { "will ", _br_list (_yes_no_responses) },
     { "should ", _br_list (_yes_no_responses) },
-    { "$are$ ", _br_list (_yes_no_responses) }
+    { "$are$ ", _br_list (_yes_no_responses) },
+    { "$you$ $like$ ", _br_list (_yes_no_responses) },
 };
 
 const struct _response *_basic_responses = __basic_responses;
@@ -233,9 +246,10 @@ const size_t _basic_responses_len
 
 // synonym defs, all have to be declared in global scope to be initialized
 // for synonym array below
-static const char *__you[]      = { "you", "u" };
-static const char *__your[]     = { "your", "ur" };
-static const char *__youre[]    = { "youre", "ur", "u r", "you're", "you are" };
+static const char *__you[]  = { "you", "u" };
+static const char *__your[] = { "your", "ur" };
+static const char *__youre[]
+   = { "youre", "ur", "u r", "you're", "you are", "you are a" };
 static const char *__im[]       = { "im", "i am", "i'm" };
 static const char *__are[]      = { "are", "r" };
 static const char *__why[]      = { "why", "y" };
@@ -255,6 +269,7 @@ static const char *__good[]
 static const char *__bad[]     = { "bad", "shit", "awful" };
 static const char *__pick[]    = { "pick", "choose", "select" };
 static const char *__between[] = { "between", "from" };
+static const char *__like[]    = { "like", "fw" };
 
 // CONTENT WARNING: this is being used in a server with edgy gay people, who
 // more than qualify to use these words
@@ -313,7 +328,8 @@ static const struct _kv_list_pair __synonyms[]
        { "hi", _list_item (__hi) },
        { "bye", _list_item (__bye) },
        { "gm", _list_item (__gm) },
-       { "gn", _list_item (__gn) } };
+       { "gn", _list_item (__gn) },
+       { "like", _list_item (__like) } };
 
 const struct _kv_list_pair *_synonyms = __synonyms;
 
