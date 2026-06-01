@@ -163,7 +163,8 @@ static const char *_thoughts_response[] = {
     "pretty horrible",
     "dumb as hell",
     "idk?",
-    "please dont ask me this"
+    "please dont ask me this",
+    "honestly, pretty cool if you ask me"
 };
 
 static const char *_yes_no_responses[] = { "yea",
@@ -239,9 +240,9 @@ static const struct _response __basic_responses[] = {
     { "cat", _br_list (_cat_response)},
     { "show me a cat", _br_list (_cat_response)},
 
-    { "thoughts on", _br_list (_cat_response)},
-    { "$your$ thoughts on", _br_list (_cat_response)},
-    { "what $are$ $your$ thoughts on", _br_list (_cat_response)},
+    { "thoughts on", _br_list (_thoughts_response)},
+    { "$your$ thoughts on", _br_list (_thoughts_response)},
+    { "what $are$ $your$ thoughts on", _br_list (_thoughts_response)},
 
 
     { "yes or no", _br_list (_yes_no_responses) },
