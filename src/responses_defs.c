@@ -153,19 +153,18 @@ static const char *_cat_response[]
        "3635ae4dc490911ba7ae64845c6009304c859276d7962aa85f79ae6c68c3f7de&=&"
        "width=977&height=1215" };
 
-static const char *_thoughts_response[] = {
-    "sure thats alright idk",
-    "sounds dumb asf lowkey",
-    "im a big fan of that :D",
-    "stupid asf",
-    "goated",
-    "lots of support for this",
-    "pretty horrible",
-    "dumb as hell",
-    "idk?",
-    "please dont ask me this",
-    "honestly, pretty cool if you ask me"
-};
+static const char *_thoughts_response[]
+   = { "sure thats alright idk",
+       "sounds dumb asf lowkey",
+       "im a big fan of that :D",
+       "stupid asf",
+       "goated",
+       "lots of support for this",
+       "pretty horrible",
+       "dumb as hell",
+       "idk?",
+       "please dont ask me this",
+       "honestly, pretty cool if you ask me" };
 
 static const char *_yes_no_responses[] = { "yea",
                                            "yes",
@@ -237,13 +236,16 @@ static const struct _response __basic_responses[] = {
     { "true or false", _br_list (_is_this_true_responses) },
     { "real?", _br_list (_is_this_true_responses) },
 
-    { "cat", _br_list (_cat_response)},
-    { "show me a cat", _br_list (_cat_response)},
+    { "cat", _br_list (_cat_response) },
+    { "show me a cat", _br_list (_cat_response) },
 
-    { "thoughts on", _br_list (_thoughts_response)},
-    { "$your$ thoughts on", _br_list (_thoughts_response)},
-    { "what $are$ $your$ thoughts on", _br_list (_thoughts_response)},
-
+    { "thoughts on ", _br_list (_thoughts_response) },
+    { "$your$ thoughts on ", _br_list (_thoughts_response) },
+    { "what $are$ $your$ thoughts on ", _br_list (_thoughts_response) },
+    { "$are$ $your$ thoughts on ", _br_list (_thoughts_response) },
+    { "$opinion$ ", _br_list (_thoughts_response) },
+    { "$your$ $opinion$ ", _br_list (_thoughts_response) },
+    { "$whats$ $your$ $opinion$ ", _br_list (_thoughts_response) },
 
     { "yes or no", _br_list (_yes_no_responses) },
     { "can ", _br_list (_yes_no_responses) },
@@ -289,6 +291,7 @@ static const char *__bad[]     = { "bad", "shit", "awful" };
 static const char *__pick[]    = { "pick", "choose", "select" };
 static const char *__between[] = { "between", "from" };
 static const char *__like[]    = { "like", "fw" };
+static const char *__opinion[] = { "opinion", "take", "thoughts" };
 
 // CONTENT WARNING: this is being used in a server with edgy gay people, who
 // more than qualify to use these words
