@@ -64,10 +64,6 @@ static const char *_insult_responses[]
        "https://tenor.com/view/"
        "sad-cry-sniffle-emoji-tears-gif-13575003772459623402" };
 
-static const char *_threat_responses[]
-   = { ":((", "please dont", "\xF0\x9F\x92\x94",
-       "dont hurt urself itll get better i promise<3" };
-
 static const char *_greeting_responses[]
    = { "hai!!!", "hi", "hello",
        "https://tenor.com/view/"
@@ -206,13 +202,6 @@ static const struct _response __basic_responses[] = {
     { "clanker", _br_list (_insult_responses) },
     { "$youre$ a clanker", _br_list (_insult_responses) },
     { "faggot", _br_list (_insult_responses) },
-
-    { "$im$ $gonna$ $kms$", _br_list (_threat_responses) },
-    { "$gonna$ $kms$", _br_list (_threat_responses) },
-    { "i $wanna$ $kms$", _br_list (_threat_responses) },
-    { "$wanna$ $kms$", _br_list (_threat_responses) },
-    { "$kms$", _br_list (_threat_responses) },
-    { "should i $kms$", _br_list (_threat_responses) },
 
     { "$hi$", _br_list (_greeting_responses) },
     { "$bye$", _br_list (_farewell_responses) },
