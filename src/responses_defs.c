@@ -242,7 +242,6 @@ static const struct _response __basic_responses[] = {
     { "thoughts on ", _br_list (_thoughts_response) },
     { "$your$ thoughts on ", _br_list (_thoughts_response) },
     { "what $are$ $your$ thoughts on ", _br_list (_thoughts_response) },
-    { "$are$ $your$ thoughts on ", _br_list (_thoughts_response) },
     { "$opinion$ ", _br_list (_thoughts_response) },
     { "$your$ $opinion$ ", _br_list (_thoughts_response) },
     { "$whats$ $your$ $opinion$ ", _br_list (_thoughts_response) },
@@ -351,7 +350,8 @@ static const struct _kv_list_pair __synonyms[]
        { "bye", _list_item (__bye) },
        { "gm", _list_item (__gm) },
        { "gn", _list_item (__gn) },
-       { "like", _list_item (__like) } };
+       { "like", _list_item (__like) },
+       { "opinion", _list_item (__opinion) } };
 
 const struct _kv_list_pair *_synonyms = __synonyms;
 
