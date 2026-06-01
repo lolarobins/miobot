@@ -153,6 +153,19 @@ static const char *_cat_response[]
        "3635ae4dc490911ba7ae64845c6009304c859276d7962aa85f79ae6c68c3f7de&=&"
        "width=977&height=1215" };
 
+static const char *_thoughts_response[] = {
+    "sure thats alright idk",
+    "sounds dumb asf lowkey",
+    "im a big fan of that :D",
+    "stupid asf",
+    "goated",
+    "lots of support for this",
+    "pretty horrible",
+    "dumb as hell",
+    "idk?",
+    "please dont ask me this"
+};
+
 static const char *_yes_no_responses[] = { "yea",
                                            "yes",
                                            "nah",
@@ -225,6 +238,11 @@ static const struct _response __basic_responses[] = {
 
     { "cat", _br_list (_cat_response)},
     { "show me a cat", _br_list (_cat_response)},
+
+    { "thoughts on", _br_list (_cat_response)},
+    { "$your$ thoughts on", _br_list (_cat_response)},
+    { "what $are$ $your$ thoughts on", _br_list (_cat_response)},
+
 
     { "yes or no", _br_list (_yes_no_responses) },
     { "can ", _br_list (_yes_no_responses) },
