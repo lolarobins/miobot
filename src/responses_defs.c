@@ -149,6 +149,62 @@ static const char *_cat_response[]
        "3635ae4dc490911ba7ae64845c6009304c859276d7962aa85f79ae6c68c3f7de&=&"
        "width=977&height=1215" };
 
+// tje joke is that theyre not dogs
+static const char *_dog_response[]
+   = { "https://images-ext-1.discordapp.net/external/"
+       "gdTuDLmklOUQpo4MyFwhgukLG1Jt1X1GsWM-NmU7jLg/https/media.tenor.com/"
+       "EadpZEQqcvgAAAPo/woodcock-friend-of-the-village.mp4",
+       "https://images-ext-1.discordapp.net/external/"
+       "gXB4bRF35NxA4GssNQbBtBrquPY35oVagPxKwezM7lU/https/media.tenor.com/"
+       "LxNXdo9mw6AAAAPo/sea-lion-wiggle.mp4",
+       "https://images-ext-1.discordapp.net/external/"
+       "0KFH_Iyzk0uw-EnlpsJmTRP53vhZMqbs29iombKvZo4/https/media.tenor.com/"
+       "-qRJjQVgUqkAAAPo/silly-dance.mp4",
+       "https://images-ext-1.discordapp.net/external/"
+       "ZFsYZa_PTsWB8dIHZT51mf4WZFy8GEvNJJateE7u6RQ/https/media.tenor.com/"
+       "dYbNrbvn-0sAAAPo/cat-owl.mp4",
+       "https://images-ext-1.discordapp.net/external/"
+       "DjAa6R8STCxE2ZkSWSyPKHOM3oQKLoKdtu8pPnNobs8/https/media.tenor.com/"
+       "zA_2DZXzNb4AAAPo/bear-walking-bear-sign.mp4",
+       "https://images-ext-1.discordapp.net/external/"
+       "4AqJe4yCejCmA5-_L5r4ZAIKPknOsW3p69GYZ57jBY8/https/media.tenor.com/"
+       "Q7Iy8Ps5wxwAAAPo/kangaroo.mp4",
+       "https://images-ext-1.discordapp.net/external/"
+       "gA6gGfZiJ0aYSRa5bgfv--7IQSxj0McDW7bmaoUePWQ/https/media.tenor.com/"
+       "91KYWbgC73kAAAPo/what%2527s-this-barn-owl.mp4",
+       "https://images-ext-1.discordapp.net/external/"
+       "XyaEW6JaCUaICTYnZUJEIRkBAa1iEgkq6AY36LTP2ag/https/media.tenor.com/"
+       "K4pMuY7AhXQAAAPo/pushing-the-button-frenchie.mp4",
+       ":dog2:",
+       "https://images-ext-1.discordapp.net/external/"
+       "MbJ2av-EylgfG50-Bmwoml4CnQ0goaVWmP3O_Fqrjyg/https/media.tenor.com/"
+       "Oj1hM5Op79cAAAPo/wolf-my-reaction-to-that-information.mp4",
+       "https://images-ext-1.discordapp.net/external/"
+       "a9cBqXucWTdnXMVxOVwbqljC4XVwPFhnbCUlLnpFan0/https/media.tenor.com/"
+       "OmVJhGQSadsAAAPo/karelikesjellyfish-werewolf.mp4" };
+
+static const char *_devil_response[]
+   = { "https://images-ext-1.discordapp.net/external/"
+       "cemD4c3bp6LS8Hw-AxMqnA8KtAo1T2vXOVBA42qMN-E/https/media.tenor.com/"
+       "PSzZcfuUAA8AAAPo/tasmanian-devil-tasmania.mp4",
+       "https://images-ext-1.discordapp.net/external/"
+       "uSKBg2Pph5bWJZArf6AGX6VMYU5E-L3KYzix5VR8RRQ/https/media.tenor.com/"
+       "LZ4h_wUq0iQAAAPo/tasmanian-devil.mp4",
+       "https://images-ext-1.discordapp.net/external/"
+       "g3LxsimkHZI0Git3A_YICMZKbXDnh75BrFMsLGN0naE/https/media.tenor.com/"
+       "JKsiBW_9dK0AAAPo/tasmanian-devil-tasmania.mp4" };
+
+static const char *_serval_response[]
+   = { "https://images-ext-1.discordapp.net/external/"
+       "Rba_I28oGGShNbxuOa0G6EUGI9wJ1K-q_Bln4YJjWzc/https/media.tenor.com/"
+       "45V4blYcySwAAAPo/sogga-serval.mp4",
+       "https://images-ext-1.discordapp.net/external/"
+       "D6d2agPVIEkgtkE2obaSwSxI0aADAvhmj3jttEP6auE/https/media.tenor.com/"
+       "xt4LcSa1ihAAAAPo/let%2527s-be-serval-about-this-serval.mp4",
+       "https://images-ext-1.discordapp.net/external/"
+       "4Dujdu2j7VyPdIN7GJY0G3kbiVTclQ8tU_C0pgDbNnM/https/media.tenor.com/"
+       "T55wRijIdEUAAAPo/sogga-serval.mp4" };
+
 static const char *_thoughts_response[]
    = { "sure thats alright idk",
        "sounds dumb asf lowkey",
@@ -227,6 +283,17 @@ static const struct _response __basic_responses[] = {
 
     { "cat", _br_list (_cat_response) },
     { "show me a cat", _br_list (_cat_response) },
+
+    { "devil", _br_list (_devil_response) },
+    { "show me a devil", _br_list (_devil_response) },
+    { "tasmanian devil", _br_list (_devil_response) },
+    { "show me a tasmanian devil", _br_list (_devil_response) },
+
+    { "dog", _br_list (_dog_response) },
+    { "show me a dog", _br_list (_dog_response) },
+
+    { "serval", _br_list (_serval_response) },
+    { "show me a serval", _br_list (_serval_response) },
 
     { "thoughts on ", _br_list (_thoughts_response) },
     { "$your$ thoughts on ", _br_list (_thoughts_response) },
